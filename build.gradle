@@ -1,10 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
-group = 'helloworld'
+group = 'demomaven'
 version = '1.0-SNAPSHOT'
 
-description = """Hello world Maven web app"""
+description = """Demo Web App"""
 
 sourceCompatibility = 1.5
 targetCompatibility = 1.5
