@@ -37,7 +37,12 @@
                 </p>
                 <p> 
                     This is a simple Java application, builded by Maven and deployed on a Web App Service on Azure. 
-                </p>
+				</p>
+				<p>
+					<img src="http://blog.desafiolatam.com/wp-content/uploads/2018/05/java-logo.png" alt="Java" style="width:200px;height:150px;" align="center">
+					<img src="https://auliamuslim.com/file/2018/02/maven-plugin-logo.png" alt="Maven" style="width:200px;height:100px;" align="center">
+					<img src="https://shazwazza.com/media/1021/vsts_to_azure.png?anchor=center&mode=crop&width=1024&height=512&rnd=131534828700000000" alt="VSTS-Azure" style="width:200px;height:100px;" align="center">
+				</p>
 		</div>
 		<div id="footer">
 			<p>
