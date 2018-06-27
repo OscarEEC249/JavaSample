@@ -36,7 +36,7 @@
                     This is a demo of a website deployed using Microsoft VSTS
                 </p>
                 <p> 
-                    This is a simple Java application, builded by Maven and deployed on a Web App Service on Azure. 
+                    This is a simple Java application, builded by Maven and deployed on a Web App Service on Microsoft Azure. 
 				</p>
 				<p>
 					<img src="http://blog.desafiolatam.com/wp-content/uploads/2018/05/java-logo.png" alt="Java" style="width:200px;height:150px;" align="center">
