@@ -40,8 +40,8 @@
 				</p>
 				<p>
 					<img src="http://blog.desafiolatam.com/wp-content/uploads/2018/05/java-logo.png" alt="Java" style="width:200px;height:200px;" align="center">
-					<img src="https://auliamuslim.com/file/2018/02/maven-plugin-logo.png" alt="Maven" style="width:200px;height:120px;" align="center">
-					<img src="https://a3bf67a2345da5d6ee8b-6d37b1ee447a16ff81e1420be19ec8c3.ssl.cf5.rackcdn.com/vsts/vsts.png" alt="VSTS" style="width:200px;height:160px;" align="center">
+					<img src="https://auliamuslim.com/file/2018/02/maven-plugin-logo.png" alt="Maven" style="width:200px;height:130px;" align="center">
+					<img src="https://a3bf67a2345da5d6ee8b-6d37b1ee447a16ff81e1420be19ec8c3.ssl.cf5.rackcdn.com/vsts/vsts.png" alt="VSTS" style="width:200px;height:200px;" align="center">
 					<img src="https://i1.wp.com/buildazure.com/wp-content/uploads/2017/09/Azure.png?resize=519%2C387&ssl=1" alt="Azure" style="width:200px;height:160px;" align="center">
 				</p>
 		</div>
