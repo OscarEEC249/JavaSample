@@ -6,12 +6,6 @@ param(
     [Parameter(Mandatory=$true)] $AppKey,
     [Parameter(Mandatory=$true)] $ResourceGroup,
 )
-
-# Login data
-$TenantName = "oscargarciacolonoutlook"
-$SubscriptionID = "f76ded42-39e7-4923-97b0-ca78ce7b5d46"
-$AppID = "d6314392-8ee3-4a96-a341-1e27e255a9ec"
-$AppKey = "23uvEbcqjM22EF6rw7spmgplVJ74OjazOOILQgJFt5o="
  
 # Login to azure
 $resp = Invoke-RestMethod -Uri "https://login.windows.net/$TenantName.onmicrosoft.com/.well-known/openid-configuration"
