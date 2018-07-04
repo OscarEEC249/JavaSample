@@ -1,24 +1,22 @@
 param(
   # Getting the control percentage as an argument
-    [Parameter(Mandatory=$true)] $TenantName,
+    [Parameter(Mandatory=$true)] $TenantID,
     [Parameter(Mandatory=$true)] $SubscriptionID,
     [Parameter(Mandatory=$true)] $AppID,
     [Parameter(Mandatory=$true)] $AppKey,
-    [Parameter(Mandatory=$true)] $ResourceGroup,
+    [Parameter(Mandatory=$true)] $ResourceGroup
 )
- 
+
 # Login to azure
-$resp = Invoke-RestMethod -Uri "https://login.windows.net/$TenantName.onmicrosoft.com/.well-known/openid-configuration"
-$TenantID = $resp.authorization_endpoint.Split("/")[3]
-$password = $AppKey | ConvertTo-SecureString -asPlainText -Force
-$creds = New-Object System.Management.Automation.PSCredential($AppID,$password)
-Add-AzureRmAccount -Credential $creds -ServicePrincipal -TenantId $TenantId -SubscriptionID $SubscriptionID 
+$securePass = $AppKey | ConvertTo-SecureString -asPlainText -Force
+$AzPass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePass));
+az login --service-principal -u $AppID -p $AzPass --tenant $TenantID;
 
 # Create AppService
 az appservice plan create --name DemoJavaServicePlan --resource-group $ResourceGroup --sku FREE
 
 # Create WebApp Service
-az webapp create --name demojava --resource-group $ResourceGroup --plan DemoJavaServicePlan
+az webapp create --name demojava2 --resource-group $ResourceGroup --plan DemoJavaServicePlan
 
 # Set up Java runtime configurations on WebApp Service
-az webapp config set --name <app_name> --resource-group myResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+az webapp config set --name demojava2 --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
