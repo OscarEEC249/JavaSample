@@ -16,7 +16,11 @@ az login --service-principal -u $AppID -p $AzPass --tenant $TenantID;
 az appservice plan create --name DemoJavaServicePlan --resource-group $ResourceGroup --sku FREE
 
 # Create WebApp Service
-az webapp create --name demojava --resource-group $ResourceGroup --plan DemoJavaServicePlan
+az webapp create --name demojava2 --resource-group $ResourceGroup --plan DemoJavaServicePlan
 
 # Set up Java runtime configurations on WebApp Service
+<<<<<<< HEAD
 az webapp config set --name demojava --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+=======
+az webapp config set --name demojava2 --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+>>>>>>> 37a45d444f7b145311536d45fc660a41980df951
