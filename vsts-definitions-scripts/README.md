@@ -34,19 +34,20 @@ Create an Azure VM with Windows Server 2016, B2s size and install the following 
 
 1. Download and install **.Net Framework 3.5**
     1. Install with .exe from Microsoft Download Center
-        
+
         [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
-        
+
     2. Install with Powershell
+
         ```
         Get-WindowsFeature NET-Framework-Features
         Install-WindowsFeature NET-Framework-Features
         ```
 
 2. Download and install the **Java JDK** latest version
-   
+
    [Download Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-    
+ 
     1. Configure the **JAVA_HOME** variable, with **Environment Variables** tool.
     Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JAVA_HOME**.
 
@@ -60,7 +61,7 @@ Create an Azure VM with Windows Server 2016, B2s size and install the following 
 3. Download and install the **Java JRE** latest version
 
     [Download Java JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-    
+
     1. Configure the **JRE_HOME** variable, with **Environment Variables** tool.
     Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JRE_HOME**.
 
@@ -89,6 +90,64 @@ Create an Azure VM with Windows Server 2016, B2s size and install the following 
             Value: C:\java\maven\apache-maven-3.5.4\bin
 
     3. Test configuration runing `maven -version` on cmd.
+
+5. Download and install VSTS Agent
+
+    1. From your home page, open your profile. Go to your security details.
+
+        ![SecurityPage](./images/my-profile-team-services.png)
+
+    2. Create a personal access token.
+
+        ![SecurityPage](./images/add-personal-access-token.png)
+
+    3. Name your token. Select a lifespan for your token.
+
+         If you have more than one account, you can also select the VSTS account where you want to use the token.
+
+        ![SecurityPage2](./images/setup-personal-access-token.png)
+
+    4. Select the scopes that this token will authorize for your specific tasks.
+
+        In this section, select the option **Agent Pools (read, manage)**.
+
+    5. When you're done, make sure to copy the token. You'll use this token when you configure the agent.
+
+        ![SecurityPage3](./images/create-personal-access-token.png)
+
+    6. Inside the VM, open a browser, sign on to VSTS, and navigate to the Agent pools tab.
+
+        ![AgentQueuesPage](./images/agent-queues.png)
+
+    7. Create a New Queue.
+
+        ![AgentNewQueue](./images/agent-new-queue.png)
+
+    8. Click on **Download Agent** and download the Windows Agent Installer.
+
+        ![AgentNewQueue](./images/agent-installer.png)
+
+    9. Create the following directory and unzip the installer there.
+
+            C:\Agent
+
+    10. Open the **Command Prompt (CMD)** as Administrator, naviate to **C:\Agent**. Run the **config.cmd**.
+
+            .\config.cmd
+
+    11. The installer going to the make a several questions, these are the answers:
+
+        Question  | Answer
+        ------------- | -------------
+        Enter Server URL  | https://{accountName}.visualstudio.com/
+        Enter authentication type | Press {ENTER}
+        Enter personal access token | Token copied on step 5
+        Enter agent pool | Pool created on step 7.
+        Enter agent name | Representative name
+        Enter work folder | Press {ENTER}
+        Enter run agent as service? (Y/N) | Y
+
+        The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
 
 ## 4. Create an Azure Service Endpoint on VSTS
 
