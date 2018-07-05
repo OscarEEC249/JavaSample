@@ -1,14 +1,12 @@
 param(
   # Getting the control percentage as an argument
     [Parameter(Mandatory=$true)] $TenantID,
-    [Parameter(Mandatory=$true)] $SubscriptionID,
-    [Parameter(Mandatory=$true)] $AppID,
-    [Parameter(Mandatory=$true)] $AppKey,
+    [Parameter(Mandatory=$true)] $ServicePrincipalKey,
     [Parameter(Mandatory=$true)] $ResourceGroup
 )
 
 # Login to azure
-$securePass = $AppKey | ConvertTo-SecureString -asPlainText -Force
+$securePass = $ServicePrincipalKey | ConvertTo-SecureString -asPlainText -Force
 $AzPass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePass));
 az login --service-principal -u $AppID -p $AzPass --tenant $TenantID;
 
