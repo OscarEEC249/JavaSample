@@ -1,8 +1,17 @@
-# Requirements on VSTS Agent
+# DEMO IMPLEMENTATION
 
-To be able to run this project ensure the following is installed on the **Windows VSTS Agent**:
+To be able to run this Demo, follow the instructions for the correct implementation of all the requeriments:
 
-## Requirements Installation
+1. Create a Service Principal on your Azure Account.
+2. Create a WebApp Service on your Azure Account.
+3. Create a Windows VSTS Agent with necesary requirements to run the Demo.
+4. Import Git repository to VSTS.
+5. Import Build and Release definitions on VSTS and link them to the VSTS Agent created on step 3.
+6. Run the Demo.
+
+## 3. Requirements VSTS Agent Installation
+
+Create an 
 
 To be able to run this project ensure the following is installed:
 
