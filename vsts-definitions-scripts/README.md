@@ -10,7 +10,7 @@ To be able to run this project ensure the following is installed:
 [Download Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
     
     1. Configure the **JAVA_HOME** variable, with **Environment Variables** tool.
-    Open **Control Panel\System and Security\System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JAVA_HOME**.
+    Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JAVA_HOME**.
 
         Example:
 
@@ -23,7 +23,7 @@ To be able to run this project ensure the following is installed:
 [Download Java JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
     
     1. Configure the **JRE_HOME** variable, with **Environment Variables** tool.
-    Open **Control Panel\System and Security\System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JRE_HOME**.
+    Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JRE_HOME**.
 
         Example:
 
@@ -38,7 +38,7 @@ To be able to run this project ensure the following is installed:
     1. Unzip it to the folder **C:\java\maven**.
 
     2. Configure the **M2_HOME** and **MAVEN_HOME** variables, with **Environment Variables** tool.
-    Open **Control Panel\System and Security\System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **M2_HOME** and **MAVEN_HOME**.
+    Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **M2_HOME** and **MAVEN_HOME**.
 
         Example:
 
