@@ -6,8 +6,21 @@ To be able to run this project ensure the following is installed on the **Window
 
 To be able to run this project ensure the following is installed:
 
-1. Download and install the Java JDK latest version:
-[Download Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+1. Download and install **.Net Framework 3.5** 
+    
+    1. Install with .exe from Microsoft Download Center 
+        
+        [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
+        
+    2. Install with Powershell
+        ```
+        Get-WindowsFeature NET-Framework-Features
+        Install-WindowsFeature NET-Framework-Features
+        ```
+
+2. Download and install the **Java JDK** latest version
+   
+   [Download Java JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
     
     1. Configure the **JAVA_HOME** variable, with **Environment Variables** tool.
     Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JAVA_HOME**.
@@ -19,8 +32,9 @@ To be able to run this project ensure the following is installed:
 
     2. Test configuration runing `java -version` on cmd.
 
-2. Download and install the Java JRE latest version:
-[Download Java JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+3. Download and install the **Java JRE** latest version
+
+    [Download Java JRE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
     
     1. Configure the **JRE_HOME** variable, with **Environment Variables** tool.
     Open **Control Panel >> System and Security >> System**, click on **Advanced system settings** and then click on **Environment Variables**. On **System variables** section, add **JRE_HOME**.
@@ -32,8 +46,9 @@ To be able to run this project ensure the following is installed:
 
     2. Test configuration runing `java -version` on cmd.
 
-3. Download Maven latest version, for example **apache-maven-3.5.-bin.zip**:
-[Download Apache Maven](http://maven.apache.org/download.cgi)
+4. Download **Maven** latest version, for example **apache-maven-3.5.-bin.zip**
+
+    [Download Apache Maven](http://maven.apache.org/download.cgi)
 
     1. Unzip it to the folder **C:\java\maven**.
 
