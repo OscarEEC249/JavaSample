@@ -1,6 +1,6 @@
 # Requirements on VSTS Agent
 
-To be able to run this project ensure the following is installed on the **Windows VSTS Agent**:
+To be able to run this project ensure the following is installed on the **Windows VSTS Agent**
 
 ## Requirements Installation
 
