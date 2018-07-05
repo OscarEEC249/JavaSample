@@ -1,27 +1,39 @@
 # DEMO IMPLEMENTATION
 
-<<<<<<< HEAD
 To be able to run this Demo, follow the instructions for the correct implementation of all the requeriments:
-=======
-To be able to run this project ensure the following is installed on the **Windows VSTS Agent**
->>>>>>> 515b832e0112d9c1266d44733f184df5f474239d
 
 1. Create a Service Principal on your Azure Account.
 2. Create a WebApp Service on your Azure Account.
-3. Create a Windows VSTS Agent with necesary requirements to run the Demo.
-4. Import Git repository to VSTS.
-5. Import Build and Release definitions on VSTS and link them to the VSTS Agent created on step 3.
-6. Run the Demo.
+3. Create a Windows VSTS Agent.
+4. Create an Azure Service Endpoint on VSTS.
+5. Import GitHub Repository to VSTS.
+6. Import Build and Release definitions on VSTS.
+7. Run the Demo.
 
-## 3. Requirements VSTS Agent Installation
+## 1. Create a Service Principal on your Azure Account
 
-Create an 
+## 2. Create a WebApp Service on your Azure Account
 
-To be able to run this project ensure the following is installed:
+Run the Powershell script **CreateWebAppService.ps1** with the following parameters regarding your Azure Service Principal and the Resource Group where you are going to allocate all the infrastructure for your Demo:
 
-1. Download and install **.Net Framework 3.5** 
-    
-    1. Install with .exe from Microsoft Download Center 
+    TenantID
+    ServicePrincipalKey
+    ResourceGroup
+
+Example:
+
+```
+CreateWebAppService.ps1 -TenantID "{Your Tenant ID}" -ServicePrincipalKey "{Your Service Principal Key}" -ResourceGroup "{Name of your Resorce Group}"
+```
+
+Now, you have your WebApp Service created on your Azure Resource Group with all needed configurations to run the Demo.
+
+## 3. Create a Windows VSTS Agent
+
+Create an Azure VM with Windows Server 2016, B2s size and install the following on it:
+
+1. Download and install **.Net Framework 3.5**
+    1. Install with .exe from Microsoft Download Center
         
         [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
         
@@ -77,3 +89,131 @@ To be able to run this project ensure the following is installed:
             Value: C:\java\maven\apache-maven-3.5.4\bin
 
     3. Test configuration runing `maven -version` on cmd.
+
+## 4. Create an Azure Service Endpoint on VSTS
+
+First, you have to create an Access Token on your VSTS instance.
+
+1. From your VSTS home page, open your profile. Go to your security details.
+
+    ![HomePage](./images/my-profile-team-services.png)
+
+2. Create a personal access token.
+
+    ![SecurityPage](./images/add-personal-access-token.png)
+
+3. Name your token. Select a lifespan for your token.
+
+    If you have more than one account, you can also select the VSTS account where you want to use the token.
+
+    ![SecurityPage2](./images/setup-personal-access-token.png)
+
+4. Select the scopes that this token will authorize for your specific tasks.
+
+    In this section, select the option **Service Endpoints (read, query and manage)**.
+
+5. When you're done, make sure to copy the token. You'll use this token as your password.
+
+    ![SecurityPage3](./images/create-personal-access-token.png)
+
+Now you are available to create a Service Endpoint on VSTS.
+
+Run the Python script **CreateAzureServiceEndpoint.py** with the following parameters regarding your VSTS Instance where your are going to configure your Demo and your Azure Account:
+
+    vsts_intance
+    project_name
+    subscription_id
+    subscription_name
+    tenant_id
+    service_principal_id
+    service_principal_key
+    endpoint_name
+    vsts_token
+
+Example:
+
+```
+CreateAzureServiceEndpoint.py "https://{Account Name}.visualstudio.com" "{project name}" "{Azure Subscription Id}" "{Azure Subscription Name}" "{Azure Tenant Id}" "{Azure Service Principal Id}" "{Azure Service Principal Key}" "{Custome name for the Endpoing}" "{VSTS Token}"
+```
+
+After creation, you need to verify the endpoint.
+
+1. Open the Services page from the "settings" icon in the top menu bar.
+
+    ![SettingsPage](./images/new-service-endpoint-1.png)
+
+2. Select the Service Endpoint, click on **Update Service Configuration**, appears all the Endpoint description. Click on **Verify connection**, (should show a successful message), then click on **OK**.
+
+    ![EndpointPage](./images/verify-connection.png)
+
+Your Service Endpoint is ready.
+
+## 5. Import GitHub Repository to VSTS
+
+To run the CI/CD process, you need to import the code before configure the Build and Release.
+
+1. On VSTS move to your Team page.
+
+    From the repo drop-down, select **Import repository**.
+
+    ![RepositoryPage](./images/importrepository.png)
+
+2. Enter the GitHub URL to clone, in this case https://github.com/OscarEEC249/JavaSample.git (this no need Authorization), click on **Import**.
+
+## 6. Import Build and Release definitions on VSTS
+
+### Import Build definition
+
+1. On VSTS move to your Team page. On top Menu, click on **Build and Release** option.
+
+2. Move to **Builds** section and **Import** the **Demo-JavaSample-Build.json** file.
+
+    ![BuildImportPage](./images/import-build-definition.png)
+
+3. On the **Process** section, change the Build name to **Demo-JavaSample**.
+
+    Select the Queue where the VSTS Agent was allocated.
+
+    ![BuildQueue](./images/build-queue.png)
+
+4. On the **Get sources** section, select the repository imported.
+
+    ![BuildRepository](./images/build-repository.png)
+
+5. Save Build definition.
+
+    ![BuildSave](./images/build-save.png)
+
+### Import Release definition
+
+1. On VSTS move to your Team page. On top Menu, click on **Build and Release** option.
+
+2. Move to **Releases** section and **Import** the **Demo-JavaSample-Build.json** file.
+
+    ![ReleaseImportPage](./images/import-release-definition.png)
+
+3. Change Release name to **Demo-JavaSample**.
+
+    ![ReleaseName](./images/release-name.png)
+
+4. Move to **Task** manu. On **Demo Environment** section, select the AzureEndpoint, the AppType (Web App) and the WebApp Service name.
+
+    ![ReleaseEndpoint](./images/release-endpoint.png)
+
+5. On **Run on agent** section, select the Queue where the VSTS Agent was allocated.
+
+    ![ReleaseQueue](./images/release-queue.png)
+
+6. Repeat step 4 on the **Stop Azure App Service: javademo** step and on **Start Azure App Service: javademo** step.
+
+## 7. Run the Demo
+
+1. On VSTS move to your Team page. On top Menu, click on **Build and Release** option.
+
+2. Move to **Builds** section, open the **Demo-JavaSample** build and click on **Queue new build..**.
+
+    ![QueueBuild](./images/run-build.png)
+
+3. Go to **Agent Queues** page, your build is running, when finish the Relese going to perform the deploy to your WebApp Service on Azure.
+
+4. On a Web Browser, navigatge to https://{WebbAppServiceName}.azurewebsites.net/demomave to verify the results.
