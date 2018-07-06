@@ -14,13 +14,13 @@ To be able to run this Demo, follow the instructions for the correct implementat
 
 ## 1. Create initial resources on Microsoft Azure
 
-To run succesfully this Demo, it is needed three initial things:
+To run successfully this Demo, it is needed three initial things:
 
 1. Create an Application registered on Azure Active Directory.
 2. Create a Service Principal for the Aplication.
 3. Create a Resource Group to allocate on it all the necessary to run the demo.
 
-To complete that you just have to run the Powershell script CreateInitialResources.ps1 with the following parameters:
+To complete that you just have to run the Powershell script **CreateInitialResources.ps1** with the following parameters:
 
     SubscriptionId     --> Azure SubscriptionID to work on it
     ADApplicationName  --> Name for the Aplication to registrate on Azure Active Directory
@@ -59,23 +59,71 @@ Now, you have your WebApp Service created on your Azure Resource Group with all 
 
 ## 3. Create a Windows VSTS Agent
 
-### Powershell VM Creation
+### VSTS Access Token creation
 
-### Manual VM Creation
+1. From your home page, open your profile. Go to your security details.
+
+    ![SecurityPage](./images/my-profile-team-services.png)
+
+2. Create a personal access token.
+
+    ![SecurityPage](./images/add-personal-access-token.png)
+
+3. Name your token. Select a lifespan for your token.
+
+    If you have more than one account, you can also select the VSTS account where you want to use the token.
+
+    ![SecurityPage2](./images/setup-personal-access-token.png)
+
+4. Select the scopes that this token will authorize for your specific tasks.
+
+    In this section, select the option **Agent Pools (read, manage)**.
+
+5. When you're done, make sure to copy the token. You'll use this token when you configure the agent.
+
+    ![SecurityPage3](./images/create-personal-access-token.png)
+
+### Powershell VM Creation and Agent Installation
+
+1. VM Creation
+
+    Download and install **.Net Framework 3.5** with Powershell
+
+    ```
+    Get-WindowsFeature NET-Framework-Features
+    Install-WindowsFeature NET-Framework-Features
+    ```
+
+2. Agent Installation
+
+    On the VM run the Powershell script VstsAgentInstall.ps1 with the following parameters:
+
+        [Mandatory] vstsAccount          --> VSTS Account Name, not URL. http://{AccountName}.visualstudio.com
+        [Mandatory] vstsUserPassword     --> VSTS Access Token
+        [Mandatory] agentName            --> Name to register on VSTS
+        agentNameSuffix                  --> Suffix for Agent name
+        [Mandatory] poolName             --> Agent Pool to allocate new Agent
+        [Mandatory] windowsLogonAccount  --> Local admin user
+        [Mandatory] windowsLogonPassword --> Password of local admin user
+        [Mandatory] driveLetter         --> Hard drive to allocate agent
+        [Mandatory] workDirectory       --> Folder name to Agent Work Directory, typically _work
+        [Mandatory] runMode             --> Agent Mode, "Service" recommended
+
+    Example:
+
+    ```
+    VstsAgentInstall.ps1 -vstsAccount "{AccountNmae}" -vstsUserPassword "{VstsAccessToken}" -agentName "{AgentName}" -agentNameSuffix "{AgentNameSuffix}" -poolName "{PoolName}" -windowsLogonAccount "{UserAdmin}" -windowsLogonPassword "{UserAdminPassword}" -driveLetter "{HardDriveLetter}" -workDirectory "{AgentWorkDirectory}" -runMode "Service"
+    ```
+
+    The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
+
+### Manual VM Creation and Agent Installation
 
 Create an Azure VM with Windows Server 2016, B2s size and install the following on it:
 
-1. Download and install **.Net Framework 3.5**
-    1. Install with .exe from Microsoft Download Center
+1. Download and install **.Net Framework 3.5**, download the installer .exe from Microsoft Download Center
 
-        [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
-
-    2. Install with Powershell
-
-        ```
-        Get-WindowsFeature NET-Framework-Features
-        Install-WindowsFeature NET-Framework-Features
-        ```
+    [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
 
 2. Download and install the **Java JDK** latest version
 
@@ -126,59 +174,38 @@ Create an Azure VM with Windows Server 2016, B2s size and install the following 
 
 5. Download and install VSTS Agent
 
-    1. From your home page, open your profile. Go to your security details.
-
-        ![SecurityPage](./images/my-profile-team-services.png)
-
-    2. Create a personal access token.
-
-        ![SecurityPage](./images/add-personal-access-token.png)
-
-    3. Name your token. Select a lifespan for your token.
-
-         If you have more than one account, you can also select the VSTS account where you want to use the token.
-
-        ![SecurityPage2](./images/setup-personal-access-token.png)
-
-    4. Select the scopes that this token will authorize for your specific tasks.
-
-        In this section, select the option **Agent Pools (read, manage)**.
-
-    5. When you're done, make sure to copy the token. You'll use this token when you configure the agent.
-
-        ![SecurityPage3](./images/create-personal-access-token.png)
-
-    6. Inside the VM, open a browser, sign on to VSTS, and navigate to the Agent pools tab.
+    1. Inside the VM, open a browser, sign on to VSTS, and navigate to the Agent pools tab.
 
         ![AgentQueuesPage](./images/agent-queues.png)
 
-    7. Create a New Queue.
+    2. Create a New Queue.
 
         ![AgentNewQueue](./images/agent-new-queue.png)
 
-    8. Click on **Download Agent** and download the Windows Agent Installer.
+    3. Click on **Download Agent** and download the Windows Agent Installer.
 
         ![AgentNewQueue](./images/agent-installer.png)
 
-    9. Create the following directory and unzip the installer there.
+    4. Create the following directory and unzip the installer there.
 
             C:\Agent
 
-    10. Open the **Command Prompt (CMD)** as Administrator, naviate to **C:\Agent**. Run the **config.cmd**.
+    5. Open the **Command Prompt (CMD)** as Administrator, naviate to **C:\Agent**. Run the **config.cmd**.
 
             .\config.cmd
 
-    11. The installer going to the make a several questions, these are the answers:
+    6. The installer going to the make a several questions, these are the answers:
 
         QUESTION  | ANSWER
         ------------- | -------------
         Enter Server URL  | https://{accountName}.visualstudio.com/
         Enter authentication type | Press {ENTER}
-        Enter personal access token | Token copied on step v
-        Enter agent pool | Pool created on step vii
+        Enter personal access token | VSTS Access Token
+        Enter agent pool | Existing Agent Pool
         Enter agent name | Representative name
         Enter work folder | Press {ENTER}
         Enter run agent as service? (Y/N) | Y
+        User account | Local Admin account
 
         The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
 
