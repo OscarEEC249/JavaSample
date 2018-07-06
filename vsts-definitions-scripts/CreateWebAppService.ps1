@@ -1,6 +1,7 @@
 param(
   # Getting the control percentage as an argument
     [Parameter(Mandatory=$true)] $TenantID,
+    [Parameter(Mandatory=$true)] $ServicePrincipalId,
     [Parameter(Mandatory=$true)] $ServicePrincipalKey,
     [Parameter(Mandatory=$true)] $ResourceGroup
 )
@@ -8,7 +9,7 @@ param(
 # Login to azure
 $securePass = $ServicePrincipalKey | ConvertTo-SecureString -asPlainText -Force
 $AzPass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePass));
-az login --service-principal -u $AppID -p $AzPass --tenant $TenantID;
+az login --service-principal -u $ServicePrincipalId -p $AzPass --tenant $TenantID;
 
 # Create Service Plan
 az appservice plan create --name DemoJavaServicePlan --resource-group $ResourceGroup --sku FREE

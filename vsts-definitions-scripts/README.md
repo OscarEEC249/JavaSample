@@ -2,17 +2,46 @@
 
 To be able to run this Demo, follow the instructions for the correct implementation of all the requeriments:
 
-1. Create a Service Principal on your Azure Account.
-2. Create a WebApp Service on your Azure Account.
+1. Create initial resources on Microsoft Azure.
+2. Create a WebApp Service on Microsoft Azure.
 3. Create a Windows VSTS Agent.
 4. Create an Azure Service Endpoint on VSTS.
 5. Import GitHub Repository to VSTS.
 6. Import Build and Release definitions on VSTS.
 7. Run the Demo.
 
-## 1. Create a Service Principal on your Azure Account
+**Take note that this guide has been created with Python 3.7.0, Powershell and Azure CLI installed.
 
-## 2. Create a WebApp Service on your Azure Account
+## 1. Create initial resources on Microsoft Azure
+
+To run succesfully this Demo, it is needed three initial things:
+
+1. Create an Application registered on Azure Active Directory.
+2. Create a Service Principal for the Aplication.
+3. Create a Resource Group to allocate on it all the necessary to run the demo.
+
+To complete that you just have to run the Powershell script CreateInitialResources.ps1 with the following parameters:
+
+    SubscriptionId     --> Azure SubscriptionId to work on it
+    ADApplicationName  --> Name for the Aplication to registrate on Azure Active Directory
+    HomePage           --> Main page of the Application, normaly http://localhost
+    ResourceGroupName  --> Name for the new Resource Group
+
+Example:
+
+```
+CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName "{ApplicationName}" -HomePage "http://localhost" -ResourceGroupName {ResourceGroupName}
+```
+
+During the execution of the script, the Azure login window will appear to perform the initial creation. This will not be necessary again when having an existing Service Principal.
+
+<img src="./images/azure-login.png" alt="AzureLogin" width="323" height="368" align="center">
+
+The script is going to return an **IMPORTANT** information on yellow color at the end of the execution, copy it and save it.
+
+![SPInformation](./images/sp-information.png)
+
+## 2. Create a WebApp Service on Microsoft Azure
 
 Run the Powershell script **CreateWebAppService.ps1** with the following parameters regarding your Azure Service Principal and the Resource Group where you are going to allocate all the infrastructure for your Demo:
 
@@ -29,6 +58,10 @@ CreateWebAppService.ps1 -TenantID "{Your Tenant ID}" -ServicePrincipalKey "{Your
 Now, you have your WebApp Service created on your Azure Resource Group with all needed configurations to run the Demo.
 
 ## 3. Create a Windows VSTS Agent
+
+### Powershell VM Creation
+
+### Manual VM Creation
 
 Create an Azure VM with Windows Server 2016, B2s size and install the following on it:
 
@@ -137,12 +170,12 @@ Create an Azure VM with Windows Server 2016, B2s size and install the following 
 
     11. The installer going to the make a several questions, these are the answers:
 
-        Question  | Answer
+        QUESTION  | ANSWER
         ------------- | -------------
         Enter Server URL  | https://{accountName}.visualstudio.com/
         Enter authentication type | Press {ENTER}
-        Enter personal access token | Token copied on step 5
-        Enter agent pool | Pool created on step 7.
+        Enter personal access token | Token copied on step v
+        Enter agent pool | Pool created on step vii
         Enter agent name | Representative name
         Enter work folder | Press {ENTER}
         Enter run agent as service? (Y/N) | Y
