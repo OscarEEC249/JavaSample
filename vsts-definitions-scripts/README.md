@@ -35,11 +35,11 @@ CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName
 
 During the execution of the script, the Azure login window will appear to perform the initial creation. This will not be necessary again when having an existing Service Principal.
 
-<img src="./images/azure-login.png" alt="AzureLogin" width="323" height="368" align="center">
+<img src="./images/azure-login.png" alt="AzureLogin" width="323" height="368" align="center"/>
 
 The script is going to return an **IMPORTANT** information on yellow color at the end of the execution, copy it and save it.
 
-![SPInformation](./images/sp-information.png)
+![SPInformation](./images/sp-information.png)(=250x100)
 
 ## 2. Create a WebApp Service on Microsoft Azure
 
