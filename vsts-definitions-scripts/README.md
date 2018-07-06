@@ -105,9 +105,9 @@ Now, you have your WebApp Service created on your Azure Resource Group with all 
         [Mandatory] poolName             --> Agent Pool to allocate new Agent
         [Mandatory] windowsLogonAccount  --> Local admin user
         [Mandatory] windowsLogonPassword --> Password of local admin user
-        [Mandatory] driveLetter         --> Hard drive to allocate agent
-        [Mandatory] workDirectory       --> Folder name to Agent Work Directory, typically _work
-        [Mandatory] runMode             --> Agent Mode, "Service" recommended
+        [Mandatory] driveLetter          --> Hard drive to allocate agent
+        [Mandatory] workDirectory        --> Folder name to Agent Work Directory, typically _work
+        [Mandatory] runMode              --> Agent Mode, "Service" recommended
 
     Example:
 
