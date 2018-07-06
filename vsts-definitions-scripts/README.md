@@ -22,7 +22,7 @@ To run succesfully this Demo, it is needed three initial things:
 
 To complete that you just have to run the Powershell script CreateInitialResources.ps1 with the following parameters:
 
-    SubscriptionId     --> Azure SubscriptionId to work on it
+    SubscriptionId     --> Azure SubscriptionID to work on it
     ADApplicationName  --> Name for the Aplication to registrate on Azure Active Directory
     HomePage           --> Main page of the Application, normaly http://localhost
     ResourceGroupName  --> Name for the new Resource Group
@@ -45,14 +45,14 @@ The script is going to return an **IMPORTANT** information on yellow color at th
 
 Run the Powershell script **CreateWebAppService.ps1** with the following parameters regarding your Azure Service Principal and the Resource Group where you are going to allocate all the infrastructure for your Demo:
 
-    TenantID
-    ServicePrincipalKey
-    ResourceGroup
+    TenantID            --> Azure Tenant ID of the Azure Subscription
+    ServicePrincipalKey --> Existing service principal key
+    ResourceGroup       --> Existing resource group
 
 Example:
 
 ```
-CreateWebAppService.ps1 -TenantID "{Your Tenant ID}" -ServicePrincipalKey "{Your Service Principal Key}" -ResourceGroup "{Name of your Resorce Group}"
+CreateWebAppService.ps1 -TenantID "{TenantID}" -ServicePrincipalKey "{ServicePrincipalKey}" -ResourceGroup "{ResorceGroupName}"
 ```
 
 Now, you have your WebApp Service created on your Azure Resource Group with all needed configurations to run the Demo.
@@ -212,20 +212,20 @@ Now you are available to create a Service Endpoint on VSTS.
 
 Run the Python script **CreateAzureServiceEndpoint.py** with the following parameters regarding your VSTS Instance where your are going to configure your Demo and your Azure Account:
 
-    vsts_intance
-    project_name
-    subscription_id
-    subscription_name
-    tenant_id
-    service_principal_id
-    service_principal_key
-    endpoint_name
-    vsts_token
+    vsts_intance          --> URL of VSTS http://{AccountName}.visualstudio.com
+    project_name          --> VSTS Project
+    subscription_id       --> Azure Subscription ID
+    subscription_name     --> Azure Subscription Name
+    tenant_id             --> Azure Tenant ID of the Azure Subscription
+    service_principal_id  --> Existing Service Principal ID
+    service_principal_key --> Existing Service Principal Key
+    endpoint_name         --> Name for new Service Endpoint
+    vsts_token            --> Existing VSTS Token
 
 Example:
 
 ```
-CreateAzureServiceEndpoint.py "https://{Account Name}.visualstudio.com" "{project name}" "{Azure Subscription Id}" "{Azure Subscription Name}" "{Azure Tenant Id}" "{Azure Service Principal Id}" "{Azure Service Principal Key}" "{Custome name for the Endpoing}" "{VSTS Token}"
+CreateAzureServiceEndpoint.py "https://{AccountName}.visualstudio.com" "{ProjectName}" "{AzureSubscriptionID}" "{AzureSubscriptionName}" "{AzureTenantID}" "{AzureServicePrincipalID}" "{AzureServicePrincipalKey}" "{EndpointName}" "{VSTSToken}"
 ```
 
 After creation, you need to verify the endpoint.
