@@ -154,7 +154,7 @@ Your Service Endpoint is ready.
 
 1. On VSTS navigate to **Agent Queues** page.
 
-    ![AgentQueuesPage](./images/agent-queues.png)
+    ![AgentQueuesPage](./images/agent-queues-menu.png)
 
 2. Create a New Queue.
 
