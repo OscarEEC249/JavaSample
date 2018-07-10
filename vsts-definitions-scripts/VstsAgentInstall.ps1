@@ -74,7 +74,8 @@ function Test-Parameters
     [CmdletBinding()]
     param(
         [string] $VstsAccount,
-        [string] $WorkDirectory
+        [string] $WorkDirectory,
+        [string] $runMode
     )
 
     if ($VstsAccount -match "https*://" -or $VstsAccount -match "visualstudio.com")
@@ -85,6 +86,11 @@ function Test-Parameters
     if (![string]::IsNullOrWhiteSpace($WorkDirectory) -and !(Test-ValidPath -Path $WorkDirectory))
     {
         Write-Error "Work directory '$WorkDirectory' is not a valid path."
+    }
+
+    if(!$runMode.Equals("Service") -and !$runMode.Equals("AutoLogon"))
+    {
+        Write-Error "Agent run mode `$runMode has only 2 options, `"Service`" and `"AutoLogon`"."
     }
 }
 
@@ -384,7 +390,7 @@ trap
 try
 {
     Write-Host 'Validating parameters'
-    Test-Parameters -VstsAccount $vstsAccount -WorkDirectory $workDirectory
+    Test-Parameters -VstsAccount $vstsAccount -WorkDirectory $workDirectory -runMode $runMode
 
     Write-Host 'Preparing agent installation location'
     $folderName = "Agent_" + $agentName
