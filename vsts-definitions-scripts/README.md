@@ -2,6 +2,8 @@ DEMO IMPLEMENTATION
 =============================
 ## Version 1.0.0 - Updated July-10-2018
 
+**Important Information:** This guide has been created with Python 3.7.0, Powershell and Azure CLI installed on the machine.
+
 ## Content
 
 To be able to run this Demo, follow the instructions for the correct implementation of all the requeriments:
@@ -26,8 +28,6 @@ To be able to run this Demo, follow the instructions for the correct implementat
     1. [Import GitHub Repository to VSTS.](#import-github-repository-to-vsts)
     2. [Import Build and Release definitions on VSTS.](#import-build-and-release-definitions-on-vsts)
     3. [Run the Demo.](#run-the-demo)
-
-**Take note that this guide has been created with Python 3.7.0, Powershell and Azure CLI installed.
 
 ## Create VSTS Tokens
 
