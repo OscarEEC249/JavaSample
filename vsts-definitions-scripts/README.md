@@ -11,14 +11,14 @@ To be able to run this Demo, follow the instructions for the correct implementat
 
     This guide has two ways to create all the necessary Azure Resources for the Demo:
     1. [Script Resources Creation](#script-resources-creation)
-        1. [Create Agent Pool on VSTS.](##1.-create-agent-pool-on-vsts)
-        2. [Create initial resources on Microsoft Azure.](##2.-create-initial-resources-on-microsoft-azure)
-        3. [Create an Azure Service Endpoint on VSTS.](##3.-create-an-azure-service-endpoint-on-vsts)
+        1. [Create Agent Pool on VSTS.](#1.-create-agent-pool-on-vsts)
+        2. [Create initial resources on Microsoft Azure.](#2.-create-initial-resources-on-microsoft-azure)
+        3. [Create an Azure Service Endpoint on VSTS.](#3.-create-an-azure-service-endpoint-on-vsts)
         4. [Extra Installations.](#extra-installations)
     1. [Manual Resources Creation](#manual-resources-creation)
-        1. [Create Agent Pool on VSTS.](##1.-create-agent-pool-on-vsts)
-        2. [Create initial resources on Microsoft Azure.*](##2.-create-initial-resources-on-microsoft-azure)
-        3. [Create an Azure Service Endpoint on VSTS.*](##3.-create-an-azure-service-endpoint-on-vsts)
+        1. [Create Agent Pool on VSTS.](#1.-create-agent-pool-on-vsts)
+        2. [Create initial resources on Microsoft Azure.*](#2.-create-initial-resources-on-microsoft-azure)
+        3. [Create an Azure Service Endpoint on VSTS.*](#3.-create-an-azure-service-endpoint-on-vsts)
         4. [Extra Installations.](#extra-installations)
 
 3. Complete the CI/CD on VSTS.
