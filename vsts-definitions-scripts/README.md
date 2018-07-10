@@ -1,21 +1,24 @@
 DEMO IMPLEMENTATION
 =============================
+## Version 1.0.0 - Updated Jul-10-2018
+
+## Content
 
 To be able to run this Demo, follow the instructions for the correct implementation of all the requeriments:
 
-1. [Create VSTS Tokens.](#-create-vsts-tokens)
+1. [Create VSTS Tokens.](#create-vsts-tokens)
 2. Create Azure Resources
 
     This guide has two ways to create all the necessary Azure Resources for the Demo:
-    1. [Scripting Resources Creation](#script-resources-creation)
-        1. [Create Agent Pool on VSTS.*](#1.-create-agent-pool-on-vsts)
-        2. [Create initial resources on Microsoft Azure.](#2.-create-initial-resources-on-microsoft-azure)
-        3. [Create an Azure Service Endpoint on VSTS.](#3.-create-an-azure-service-endpoint-on-vsts)
+    1. [Scripting Resources Creation](##script-resources-creation)
+        1. [Create Agent Pool on VSTS.](###1.-create-agent-pool-on-vsts)
+        2. [Create initial resources on Microsoft Azure.](###2.-create-initial-resources-on-microsoft-azure)
+        3. [Create an Azure Service Endpoint on VSTS.](###3.-create-an-azure-service-endpoint-on-vsts)
         4. [Extra Installations.](#extra-installations)
-    1. [Manual Resources Creation](#manual-resources-creation)
-        1. [Create Agent Pool on VSTS.](#1.-create-agent-pool-on-vsts)
-        2. [Create initial resources on Microsoft Azure.*](#2.-create-initial-resources-on-microsoft-azure)
-        3. Create an Azure Service Endpoint on VSTS.*
+    1. [Manual Resources Creation](##manual-resources-creation)
+        1. [Create Agent Pool on VSTS.](###1.-create-agent-pool-on-vsts)
+        2. [Create initial resources on Microsoft Azure.*](###2.-create-initial-resources-on-microsoft-azure)
+        3. [Create an Azure Service Endpoint on VSTS.*](###3.-create-an-azure-service-endpoint-on-vsts)
         4. [Extra Installations.](#extra-installations)
 
 3. Complete the CI/CD on VSTS.
@@ -30,7 +33,7 @@ To be able to run this Demo, follow the instructions for the correct implementat
 
 It is neccesarry to create two types of tokens, one for **VSTS Agent** installation and other for **ServiceEnpoints** configuration
 
-1. From your home page, open your profile. Go to your security details.
+1. From your home page on VSTS, open your profile. Go to your security details.
 
     ![SecurityPage](./images/my-profile-team-services.png)
 
@@ -56,9 +59,23 @@ It is neccesarry to create two types of tokens, one for **VSTS Agent** installat
 
 ## Script  Resources Creation
 
-### 1. Create Agent Pool on VSTS (Script)
+### 1. Create Agent Pool on VSTS
 
-### 2. Create initial resources on Microsoft Azure (Script)
+Run the Python script **CreateAgentPool.py** with the following parameters regarding your VSTS Instance where your are going to configure your Demo::
+
+    vsts_intance    --> URL of VSTS http://{AccountName}.visualstudio.com
+    agentpool_name  --> Name of the new Agent Pool to create
+    vsts_token      --> VSTS Token for Service Endpoint
+
+Example:
+
+```
+CreateAzureServiceEndpoint.py "https://{AccountName}.visualstudio.com" "{PoolName}" "{VSTSToken}"
+```
+
+The Agent Pool is ready.
+
+### 2. Create initial resources on Microsoft Azure
 
 To run successfully this Demo, it is needed six initial things:
 
@@ -69,7 +86,7 @@ To run successfully this Demo, it is needed six initial things:
 5. A Windows Server VM with .Net Framework 3.5 and the VSTS Agent installed and allocated on the Resource Group.
 6. A WebApp Service to allocate the Demo Application.
 
-To complete that you just have to run the Powershell script **CreateInitialResources.ps1** with the following parameters:
+To complete this tasks you just have to run the Powershell script **CreateInitialResources.ps1** with the following parameters:
 
     SubscriptionId           --> Azure SubscriptionID to work on it
     ADApplicationName        --> Name for the Aplication to registrate on Azure Active Directory
@@ -79,15 +96,17 @@ To complete that you just have to run the Powershell script **CreateInitialResou
     VmAdminUser              --> Name of the UserAdmin of the VM
     VmAdminPassword          --> Strong password for the UserAdmin of the VM
     VstsAgentToken           --> Token created for Agent installation
-    VstsAgentPool            --> Agent Pool of VSTS to allocate the VSTS Agent
+    VstsAccount              --> Name of the VSTS account to allocate the Demo.  Do not send the complete URL, just the AccountName section on the URL https://{AccountName}.visualstudio.com
+    VstsAgentPool            --> Agent Pool on VSTS to allocate the VSTS Agent.
+    AzureWebAppServiceName   --> Name of the new WebApp Service to allocate the application.
 
 Example:
 
 ```
-CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName "{ApplicationName}" -HomePageOfADApplication "http://localhost" -ResourceGroupName {ResourceGroupName} -VmName{VmName} -VmAdminUser {AdminUser} -VmAdminPassword {AdminPassword} -VstsAgentToken {VstsToken} -VstsAgentPool {VstsPoolName}
+CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName "{ApplicationName}" -HomePageOfADApplication "http://localhost" -ResourceGroupName "{ResourceGroupName}" -VmName "{VmName}" -VmAdminUser "{AdminUser}" -VmAdminPassword "{AdminPassword}" -VstsAgentToken "{VstsToken}" -VstsAgentPool "{VstsPoolName}" -AzureWebAppServiceName "{WebAppServiceNmae}"
 ```
 
-During the execution of the script, the Azure login window will appear to perform the initial creation. This will not be necessary again when having an existing Service Principal.
+During the execution of the script, the Azure Login window will appear to perform the initial creation. This will not be necessary again when having an existing Service Principal.
 
 <img src="./images/azure-login.png" alt="AzureLogin" width="323" height="368" align="center"/>
 
@@ -132,80 +151,235 @@ Your Service Endpoint is ready.
 ## Manual  Resources Creation
 
 ### 1. Create Agent Pool on VSTS
+
 1. On VSTS navigate to **Agent Queues** page.
 
     ![AgentQueuesPage](./images/agent-queues.png)
 
 2. Create a New Queue.
 
-    ![AgentNewQueue](./images/agent-new-queue.png)
+    ![NewAgentNewQueue](./images/agent-new-queue.png)
 
 ### 2. Create initial resources on Microsoft Azure
 
 To run successfully this Demo, it is needed six initial things:
 
-1. An Application registered on Azure Active Directory.
-2. A Service Principal for the Aplication.
-3. A Resource Group to allocate on it all the necessary to run the demo.
-4. A Stora Account on the Resource Group.
-5. A Windows Server VM with .Net Framework 3.5 and the VSTS Agent installed and allocated on the Resource Group.
+1. Application registered on Azure Active Directory with Service Principal key.
 
-    Inside the VM, open a browser, sign on to VSTS, and navigate to the Agent pools tab.
+    1. On your Azure Home Page, navigate to **Azure Active Directory** on your left panel.
 
-    1. Download and install **.Net Framework 3.5**
+        ![AzureActiveDirectory](./images/azure-active-directory.png)
+    
+    2. Inside the Active Directory, open **App Registration**.
 
-        Download the installer .exe from Microsoft Download Center
+        ![AppRegistration](./images/ad-app-registration.png)
+    
+    3. Click on **New Application Registration** and enter the following parameters:
 
-        [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
+        Name         --> Name to new AD Application.
+        Type         --> Web app / API
+        Sign-on URL  --> http://localhost
+    
+    4. Save the App ID, this is going to be your **Serve Principal ID**.
 
-    2. Download and install VSTS Agent
-        1. Click on **Download Agent** and download the Windows Agent Installer.
+        ![AppID](./images/ad-app-id.png)
 
-            ![AgentNewQueue](./images/agent-installer.png)
+    5. On the App Created, click on **Setting** and then on **Keys**.
 
-        2. Create the following directory and unzip the installer there.
+        ![AppCreated](./images/ad-app-created.png)
 
-                C:\Agent
+    6. Create a new key, click on save and copy the encripted key. This is going to be your **Service Principal Key**.
 
-        3. Open the **Command Prompt (CMD)** as Administrator, naviate to **C:\Agent**. Run the **config.cmd**.
+        ![AppID](./images/ad-app-key.png)
 
-                .\config.cmd
+2. Resource Group to allocate on it all the necessary to run the demo.
+    1. On your Azure Home Page, navigate to **Resource Groups** on your left panel.
 
-        4. The installer going to the make a several questions, these are the answers:
+        ![ResourceGroups](./images/resource-groups.png)
 
-            QUESTION  | ANSWER
-            ------------- | -------------
-            Enter Server URL  | https://{accountName}.visualstudio.com/
-            Enter authentication type | Press {ENTER}
-            Enter personal access token | VSTS Access Token
-            Enter agent pool | Existing Agent Pool
-            Enter agent name | Representative name
-            Enter work folder | Press {ENTER}
-            Enter run agent as service? (Y/N) | Y
-            User account | Local Admin account
+    2. Create a new Resource Group.
 
-            The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
+    3. Add Active Directory Application to Resource Group.
 
-6. A WebApp Service to allocate the Demo Application.
+        Inside the new Resource Group go to **Access control (IAM)**.
 
+        ![ResourceGroupsIAM](./images/resource-group-iam.png)
 
+        Click on **Add** button, assign **Contributor** role and search de Active Directory Application by name.
 
+        ![ResourceGroupsIAMAdd](./images/resource-group-iam-add.png)
 
+        Click on **Save** button.
 
+        The Resource Group is ready.
 
+3. Storage Account on the Resource Group.
 
+    1. Inside the new Resource Group, click on **Add** button and search for **Storages Account**.
 
+        ![SearchStorageAccount](./images/search-storage-account.png)
 
+    2. Create new Storage Account with following parameters:
 
+            Name                     --> Storage Account name
+            Account kind             --> Storage (general purpose v1)
+            Location                 --> Same of your Resource Group
+            Replication              --> Default value
+            Performance              --> Default value
+            Secure transfer required --> default value
+            Resource Group           --> Resource Group recently created.
+            Virtual Network          --> Default value
 
+4. Windows Server VM with .Net Framework 3.5 and the VSTS Agent installed and allocated on the Resource Group.
 
+    1. Create Windows Server on Azure.
 
+        1. Inside the new Resource Group, click on **Add** button and search for **Virtual Machines** section and select **Windows Server**.
 
+            ![WindowsServer](./images/windows-server.png)
 
+        2. Select **Windows Server 2016 Datacenter** and click on **Create** to start the configuration.
 
+        3. Basics Configurations
 
+            Enter the following parameters and then click on **OK**:
 
+                Name            --> VM Name
+                VM disk type    --> SSD
+                Username        --> Admin user for VM
+                Password        --> Admin password for VM
+                Subscription    --> Default value
+                Resource Group  --> Resource Group recently created
+                Location        --> Same of your Resource
 
+            ![VMBasics](./images/vm-basics.png)
+
+        4. Size Configurations.
+
+            Search and select **B2s** type, then click on **Select**.
+
+            ![VMSize](./images/vm-size.png)
+
+        5. Settings Configurations.
+
+            Enter the following parameters:
+
+                Availability zone --> Default value
+                Availability set  --> None
+
+            Create new Network.
+
+            ![VMVnet](./images/vm-vnet.png)
+
+                Select public inbound ports  --> HTTP, HTTPS, SSH, RDP
+                Diagnostics storage account  --> Storage account recently created
+
+            Click on **OK**.
+
+        6. Summary configuration.
+
+            Click on **Create**. This will take several minutes.
+
+        7. Download RDP file to crate remote session.
+
+            ![VMRdp](./images/vm-rdp.png)
+
+    2. Download and install .Net Framework and VSTS Agent.
+
+        Create a remote session to your VM and follow the steps:
+        1. Download and install **.Net Framework 3.5**
+
+            Download the installer .exe from Microsoft Download Center and install the Framework.
+
+            [Download .Net Framework 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
+
+        2. Download and install VSTS Agent
+
+            1. Inside the VM, open a browser, sign in into VSTS, and navigate to **Agent Queues** page.
+
+                ![AgentQueuesPage](./images/agent-queues.png)
+
+            2. Click on **Download Agent** and download the Windows Agent Installer.
+
+                ![AgentNewQueue](./images/agent-installer.png)
+
+            3. Create the following directory and unzip the installer there.
+
+                    C:\Agent
+
+            4. Open the **Command Prompt (CMD)** as Administrator, naviate to **C:\Agent**and then run the **config.cmd**.
+
+                    .\config.cmd
+
+            5. The installer is going to the make a several questions:
+
+                QUESTION  | ANSWER
+                ------------- | -------------
+                Enter Server URL  | https://{accountName}.visualstudio.com/
+                Enter authentication type | Press [ENTER]
+                Enter personal access token | VSTS Access Token
+                Enter agent pool | Existing Agent Pool
+                Enter agent name | Representative name
+                Enter work folder | Press {ENTER}
+                Enter run agent as service? (Y/N) | Y
+                User account | Local Admin account
+
+                The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
+
+5. WebApp Service to allocate the Demo Application.
+
+    1. Inside the new Resource Group, click on **Add** button and search for **Web** section and select **Web App Microsoft**.
+
+        ![WebApp](./images/web-app.png)
+
+    2. Click on **Create** button and enter the following parameters:
+
+            App name          --> Name of new WebApp Service
+            Subscription      --> Default value
+            Resource Group    --> Resource Group recently created
+            OS                --> Windows
+            App Service Plan  --> Default value
+
+    3. Click on **Create** button and then open the new WebbApp.
+
+    4. Go into **Application settings** on the WebApp.
+
+        ![WebAppSettings](./images/web-app-settings.png)
+
+    5. On **General Settings** select the following:
+
+            Java version        --> Java 8
+            Java minor version  --> Newest
+            Java web container  --> Newest Tomcast 8.0
+            HTTP Version        --> 2.0
+
+    6. Save the changes.
+
+    The new WebApp is ready.
+
+### 3. Create an Azure Service Endpoint on VSTS
+
+1. Open the Services page from the "settings" icon in the top menu bar.
+
+    ![SettingsPage](./images/new-service-endpoint-1.png)
+
+2. Click on **New Service Endpoint** and select **Azure Resource Manager** option.
+
+    Click on **Use the full version of the endpoint dialog** and enter the following parameters regarding your Azure Account:
+
+        Connection Name              --> New service endpoint name
+        Environment                  --> Azure Cloud
+        Subscription ID              --> Azure Subscription ID
+        Subscription Name            --> Azure Subscription Name
+        Service Principal Client ID  --> Service Principal ID recently created
+        Service Principal Key        --> Service Princiapl Key recently created
+        Tenant ID                    --> Tenant ID of Azure Subscription
+
+3. Click on **Verify connection**, (should show a successful message), then click on **OK**.
+
+    ![EndpointPage](./images/verify-connection.png)
+
+Your Service Endpoint is ready.
 
 ## Extra Installations
 
@@ -326,67 +500,4 @@ To run the CI/CD process, you need to import the code before configure the Build
 
 3. Go to **Agent Queues** page, your build is running, when finish the Relese going to perform the deploy to your WebApp Service on Azure.
 
-4. On a Web Browser, navigatge to https://{WebbAppServiceName}.azurewebsites.net/demomave to verify the results.
-
-
-## 2. Create a WebApp Service on Microsoft Azure
-
-Run the Powershell script **CreateWebAppService.ps1** with the following parameters regarding your Azure Service Principal and the Resource Group where you are going to allocate all the infrastructure for your Demo:
-
-    TenantID            --> Azure Tenant ID of the Azure Subscription
-    ServicePrincipalKey --> Existing service principal key
-    ResourceGroup       --> Existing resource group
-
-Example:
-
-```
-CreateWebAppService.ps1 -TenantID "{TenantID}" -ServicePrincipalKey "{ServicePrincipalKey}" -ResourceGroup "{ResorceGroupName}"
-```
-
-Now, you have your WebApp Service created on your Azure Resource Group with all needed configurations to run the Demo.
-
-## 3. Create a Windows VSTS Agent
-
-### VSTS Access Token creation
-
-
-
-### Powershell VM Creation and Agent Installation
-
-1. VM Creation
-
-    Download and install **.Net Framework 3.5** with Powershell
-
-    ```
-    Get-WindowsFeature NET-Framework-Features
-    Install-WindowsFeature NET-Framework-Features
-    ```
-
-2. Agent Installation
-
-    On the VM run the Powershell script VstsAgentInstall.ps1 with the following parameters:
-
-        [Mandatory] vstsAccount          --> VSTS Account Name, not URL. http://{AccountName}.visualstudio.com
-        [Mandatory] vstsUserPassword     --> VSTS Access Token
-        [Mandatory] agentName            --> Name to register on VSTS
-        agentNameSuffix                  --> Suffix for Agent name
-        [Mandatory] poolName             --> Agent Pool to allocate new Agent
-        [Mandatory] windowsLogonAccount  --> Local admin user
-        [Mandatory] windowsLogonPassword --> Password of local admin user
-        [Mandatory] driveLetter          --> Hard drive to allocate agent
-        [Mandatory] workDirectory        --> Folder name to Agent Work Directory, typically _work
-        [Mandatory] runMode              --> Agent Mode, "Service" recommended
-
-    Example:
-
-    ```
-    VstsAgentInstall.ps1 -vstsAccount "{AccountNmae}" -vstsUserPassword "{VstsAccessToken}" -agentName "{AgentName}" -agentNameSuffix "{AgentNameSuffix}" -poolName "{PoolName}" -windowsLogonAccount "{UserAdmin}" -windowsLogonPassword "{UserAdminPassword}" -driveLetter "{HardDriveLetter}" -workDirectory "{AgentWorkDirectory}" -runMode "Service"
-    ```
-
-    The new Agent is up and running. The Agent appears on green status on the Agent Queue on VSTS.
-
-### Manual VM Creation and Agent Installation
-
-Create an Azure VM with Windows Server 2016, B2s size and install the following on it:
-
-
+4. On a Web Browser, navigatge to **https://{WebbAppServiceName}.azurewebsites.net/demomaven** to verify the results.

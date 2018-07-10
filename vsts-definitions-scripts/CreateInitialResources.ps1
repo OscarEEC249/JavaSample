@@ -7,8 +7,10 @@
     [Parameter(Mandatory=$true)] [string] $VmName,
     [Parameter(Mandatory=$true)] [string] $VmAdminUser,
     [Parameter(Mandatory=$true)] [string] $VmAdminPassword,
+    [Parameter(Mandatory=$true)] [string] $VstsAccount,
     [Parameter(Mandatory=$true)] [string] $VstsAgentToken,
-    [Parameter(Mandatory=$true)] [string] $VstsAgentPool
+    [Parameter(Mandatory=$true)] [string] $VstsAgentPool,
+    [Parameter(Mandatory=$true)] [string] $AzureWebAppServiceName
 )
 
 #
@@ -105,7 +107,7 @@ try{
     Write-Host("Installing VSTS Agent...")
     $ScriptPath = $PSScriptRoot + "\VstsAgentInstall.ps1"
     $AgentParams = @{
-        vstsAccount = "itzdatacoka"
+        vstsAccount = $VstsAccount
         vstsUserPassword = $VstsAgentToken
         agentName = $VmName
         poolName = $VstsAgentPool
@@ -125,14 +127,15 @@ try{
 
     #################### Create WebApp Service ###################
 
-    # Create Service Plan
-    az appservice plan create --name DemoJavaServicePlan --resource-group $ResourceGroup --sku FREE
+    # # Create Service Plan
+    # $ServicePlanName = $AzureWebAppServiceName + "-ServicePlan"
+    # az appservice plan create --name $ServicePlanName --resource-group $ResourceGroup --sku FREE
 
-    # Create WebApp Service
-    az webapp create --name demojava --resource-group $ResourceGroup --plan DemoJavaServicePlan
+    # # Create WebApp Service
+    # az webapp create --name $AzureWebAppServiceName --resource-group $ResourceGroup --plan $ServicePlanName
 
-    # Set up Java runtime configurations on WebApp Service
-    az webapp config set --name demojava --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+    # # Set up Java runtime configurations on WebApp Service
+    # az webapp config set --name $AzureWebAppServiceName --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
 
     #################### Output message ###################
 
