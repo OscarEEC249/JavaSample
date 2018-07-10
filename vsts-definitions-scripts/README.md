@@ -16,9 +16,9 @@ To be able to run this Demo, follow the instructions for the correct implementat
         3. [Create an Azure Service Endpoint on VSTS.](#3-create-an-azure-service-endpoint-on-vsts)
         4. [Extra Installations.](#extra-installations)
     1. [Manual Resources Creation](#manual-resources-creation)
-        1. [Create Agent Pool on VSTS.](#1-create-agent-pool-on-vsts)
-        2. [Create initial resources on Microsoft Azure.*](#2-create-initial-resources-on-microsoft-azure)
-        3. [Create an Azure Service Endpoint on VSTS.*](#3-create-an-azure-service-endpoint-on-vsts)
+        1. [Create Agent Pool on VSTS.](#1-create-agent-pool-on-vsts-1)
+        2. [Create initial resources on Microsoft Azure.](#2-create-initial-resources-on-microsoft-azure-1)
+        3. [Create an Azure Service Endpoint on VSTS.](#3-create-an-azure-service-endpoint-on-vsts-1)
         4. [Extra Installations.](#extra-installations)
 
 3. Complete the CI/CD on VSTS.
@@ -103,7 +103,7 @@ To complete this tasks you just have to run the Powershell script **CreateInitia
 Example:
 
 ```
-CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName "{ApplicationName}" -HomePageOfADApplication "http://localhost" -ResourceGroupName "{ResourceGroupName}" -VmName "{VmName}" -VmAdminUser "{AdminUser}" -VmAdminPassword "{AdminPassword}" -VstsAgentToken "{VstsToken}" -VstsAgentPool "{VstsPoolName}" -AzureWebAppServiceName "{WebAppServiceNmae}"
+CreateInitialResources.ps1 -SubscriptionId "{SubscriptionID}" -ADApplicationName "{ApplicationName}" -HomePageOfADApplication "http://localhost" -ResourceGroupName "{ResourceGroupName}" -VmName "{VmName}" -VmAdminUser "{AdminUser}" -VmAdminPassword "{AdminPassword}" -VstsAgentToken "{VstsToken}" -VstsAccount "{VstsAccount}" -VstsAgentPool "{VstsPoolName}" -AzureWebAppServiceName "{WebAppServiceNmae}"
 ```
 
 During the execution of the script, the Azure Login window will appear to perform the initial creation. This will not be necessary again when having an existing Service Principal.
