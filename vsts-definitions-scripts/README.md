@@ -77,16 +77,16 @@ The Agent Pool is ready.
 
 ### 2. Create initial resources on Microsoft Azure
 
-To run successfully this Demo, it is needed six initial things:
+To run successfully this Demo, it is needed some initial resources:
 
 1. An Application registered on Azure Active Directory.
 2. A Service Principal for the Aplication.
 3. A Resource Group to allocate on it all the necessary to run the demo.
-4. A Stora Account on the Resource Group.
+4. A Storage Account on the Resource Group.
 5. A Windows Server VM with .Net Framework 3.5 and the VSTS Agent installed and allocated on the Resource Group.
 6. A WebApp Service to allocate the Demo Application.
 
-To complete this tasks you just have to run the Powershell script **CreateInitialResources.ps1** with the following parameters:
+To complete this tasks you just need to run the Powershell script **CreateInitialResources.ps1** with the following parameters:
 
     SubscriptionId           --> Azure SubscriptionID to work on it
     ADApplicationName        --> Name for the Aplication to registrate on Azure Active Directory
@@ -162,7 +162,7 @@ Your Service Endpoint is ready.
 
 ### 2. Create initial resources on Microsoft Azure
 
-To run successfully this Demo, it is needed six initial things:
+To run successfully this Demo, it is needed some initial resources:
 
 1. Application registered on Azure Active Directory with Service Principal key.
 
