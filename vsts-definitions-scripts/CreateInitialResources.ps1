@@ -22,16 +22,16 @@
 $ErrorActionPreference = "Stop"
 
 try{
-    #################### Azure Login ###################
-    
+    ####################################### Azure Login ######################################
+
     Connect-AzureRmAccount
 
-    #################### Move to selected Subscription ###################
-    
+    ####################################### Move to selected Subscription ######################################
+
     Select-AzureRmSubscription -SubscriptionId $SubscriptionId
 
-    ################### Create the Azure ActiveDirectory Application ###################
-    
+    ###################################### Create the Azure ActiveDirectory Application ######################################
+
     Write-Host("Creating Azure ActiveDirectory Application...") -ForegroundColor Magenta
     Add-Type -Assembly System.Web
     $password = [System.Web.Security.Membership]::GeneratePassword(16,3)
@@ -41,7 +41,7 @@ try{
     Write-Host("Azure ActiveDirectory Application created") -ForegroundColor Green
     Write-Host("")
 
-    #################### Create the Service Principal ###################
+    ####################################### Create the Service Principal ######################################
 
     Write-Host("Creating Service Principal...") -ForegroundColor Magenta
     New-AzureRmADServicePrincipal -ApplicationId $AppInfo.ApplicationId
@@ -53,14 +53,14 @@ try{
     Write-Host("Service Principal created") -ForegroundColor Green
     Write-Host("")
 
-    #################### Create Resource Group ###################
+    ####################################### Create Resource Group ######################################
 
     Write-Host("Creating Resource Group...") -ForegroundColor Magenta
     New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Central US"
     Write-Host("Resource Group created") -ForegroundColor Green
     Write-Host("")
 
-    #################### Create Storage Account ###################
+    ####################################### Create Storage Account ######################################
 
     Write-Host("Creating Storage Account...") -ForegroundColor Magenta
     $StorageAccountInfo = New-AzureRMStorageAccount -ResourceGroupName $ResourceGroupName -AccountName "demojavastorage1x" -Location "Central US" -Type "Standard_LRS"
@@ -68,7 +68,7 @@ try{
     Write-Host("Storage Account created") -ForegroundColor Green
     Write-Host("")
 
-    #################### Create VM ###################
+    ####################################### Create VM ######################################
 
     # Create a new clean VM
     Write-Host("Creating and Configuring Virtual Machine...") -ForegroundColor Magenta
@@ -92,16 +92,17 @@ try{
     Write-Host("RemotePS enabled")
 
     # Enable Admin Account
-    #Write-Host("Enabling Admin Account...")
-    #Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "EnableAdminAccount"
-    #Write-Host("Admin Account enabled")
+    Write-Host("Enabling Admin Account...")
+    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "EnableAdminAccount"
+    Write-Host("Admin Account enabled")
 
-    #Install .NetFramework 3.5
-    Write-Host("Installing .Net Framework 3.5...")
+    # Install .NetFramework 3.5
+    Write-Host("Installing .NetFramework 3.5...")
     $ScriptPath = $PSScriptRoot + "\NetFrameworkInstall.ps1"
     Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "RunPowerShellScript" -ScriptPath $ScriptPath
     Write-Host("VSTS Agent installed")
-    Write-Host(".Net Framework 3.5 installed")
+    Write-Host(".NetFramework 3.5 installed")
+    Start-Sleep 10
 
     # Run Agent installation on VM
     Write-Host("Installing VSTS Agent...")
@@ -124,21 +125,36 @@ try{
     Write-Host("Virtual Machine created and configured complete") -ForegroundColor Green
     Write-Host("")
 
+    ####################################### Create WebApp Service ######################################
 
-    #################### Create WebApp Service ###################
+    Write-Host("Creating WebApp Service...") -ForegroundColor Magenta
 
-    # # Create Service Plan
-    # $ServicePlanName = $AzureWebAppServiceName + "-ServicePlan"
-    # az appservice plan create --name $ServicePlanName --resource-group $ResourceGroup --sku FREE
+    # Create Service Plan
+    Write-Host("Creating Service Plan...")
+    $ServicePlanName = $AzureWebAppServiceName + "-ServicePlan"
+    New-AzureRmAppServicePlan -Name $ServicePlanName -Location "Central US" -ResourceGroupName $ResourceGroupName -Tier Free
 
-    # # Create WebApp Service
-    # az webapp create --name $AzureWebAppServiceName --resource-group $ResourceGroup --plan $ServicePlanName
+    # Create WebApp Service
+    Write-Host("Creating WebApp Service...")
+    New-AzureRmWebApp -Name $AzureWebAppServiceName -AppServicePlan $ServicePlanName -ResourceGroupName $ResourceGroupName -Location "Central US"
 
-    # # Set up Java runtime configurations on WebApp Service
-    # az webapp config set --name $AzureWebAppServiceName --resource-group $ResourceGroup --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+    # Set up Java runtime configurations on WebApp Service
+    Write-Host("Adding Java configuration to WebApp Service...")
+    $WebAppProperties = @{
+        "siteConfig" = @{
+            javaVersion = "1.8"
+            javaContainer = "TOMCAT"
+            javaContainerVersion = "8.0"
+        }
+    }
+    Set-AzureRmResource -ResourceType microsoft.web/sites -ResourceName $WebAppName -ResourceGroupName Demo -PropertyObject $WebAppProperties -Force
 
-    #################### Output message ###################
+    Write-Host("Web App Service created and configured") -ForegroundColor Green
 
+    ####################################### Output message ######################################
+
+    Write-Host("")
+    Write-Host("")
     Write-Host("")
     Write-Host("-------------------- SAVE THIS INFORMATION --------------------") -ForegroundColor Yellow
     Write-Host("ServicePrincipalId = " + $AppInfo.ApplicationId) -ForegroundColor Yellow
@@ -148,4 +164,3 @@ finally
 {
     popd
 }
-

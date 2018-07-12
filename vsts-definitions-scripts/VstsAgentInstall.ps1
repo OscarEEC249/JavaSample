@@ -144,7 +144,7 @@ function Download-AgentPackage
 
     $agentPackagePath = "$agentTempFolderName\agent.zip"
     $serverUrl = "https://$VstsAccount.visualstudio.com"
-    $vstsAgentUrl = "$serverUrl/_apis/distributedtask/packages/agent/win7-x64?`$top=1&api-version=3.0"
+    $vstsAgentUrl = "$serverUrl/_apis/distributedtask/packages/agent/win7-x64?`$top=1&api-version=4.1"
     $vstsUser = "AzureDevTestLabs"
 
     $maxRetries = 3
