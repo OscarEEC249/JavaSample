@@ -21,6 +21,8 @@
 #       This is necessary to ensure we capture errors inside the try-catch-finally block.
 $ErrorActionPreference = "Stop"
 
+############################################################### MAIN PROCESS ###############################################################
+
 try{
     ####################################### Azure Login ######################################
 
@@ -38,7 +40,7 @@ try{
     $securePassword = ConvertTo-SecureString -Force -AsPlainText -String $password
     $AppInfo = New-AzureRmADApplication -DisplayName "$ADApplicationName" -HomePage $HomePageOfADApplication -IdentifierUris $HomePageOfADApplication -Password $securePassword
     Write-Host("")
-    Write-Host("Azure ActiveDirectory Application created") -ForegroundColor Green
+    Write-Host("Azure Active Directory Application created") -ForegroundColor Green
     Write-Host("")
 
     ####################################### Create the Service Principal ######################################
@@ -50,6 +52,7 @@ try{
     Write-Output "Waiting for Service Principal creation to reflect in Directory before Role assignment..."
     Start-Sleep 30
     New-AzureRmRoleAssignment -RoleDefinitionName "contributor" -ServicePrincipalName $AppInfo.ApplicationId
+
     Write-Host("Service Principal created") -ForegroundColor Green
     Write-Host("")
 
@@ -147,7 +150,7 @@ try{
             javaContainerVersion = "8.0"
         }
     }
-    Set-AzureRmResource -ResourceType microsoft.web/sites -ResourceName $WebAppName -ResourceGroupName Demo -PropertyObject $WebAppProperties -Force
+    Set-AzureRmResource -ResourceType microsoft.web/sites -ResourceName $AzureWebAppServiceName -ResourceGroupName Demo -PropertyObject $WebAppProperties -Force
 
     Write-Host("Web App Service created and configured") -ForegroundColor Green
 
