@@ -91,18 +91,18 @@ try{
 
     # Enable Remote Powershell
     Write-Host("Enabling RemotePS...")
-    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "EnableRemotePS"
+    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name $VmName -CommandId "EnableRemotePS"
     Write-Host("RemotePS enabled")
 
     # Enable Admin Account
     Write-Host("Enabling Admin Account...")
-    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "EnableAdminAccount"
+    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name $VmName -CommandId "EnableAdminAccount"
     Write-Host("Admin Account enabled")
 
     # Install .NetFramework 3.5
     Write-Host("Installing .NetFramework 3.5...")
     $ScriptPath = $PSScriptRoot + "\NetFrameworkInstall.ps1"
-    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "RunPowerShellScript" -ScriptPath $ScriptPath
+    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name $VmName -CommandId "RunPowerShellScript" -ScriptPath $ScriptPath
     Write-Host("VSTS Agent installed")
     Write-Host(".NetFramework 3.5 installed")
     Start-Sleep 10
@@ -122,7 +122,7 @@ try{
         runMode = "Service"
     }
 
-    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name "DemoAgent" -CommandId "RunPowerShellScript" -ScriptPath $ScriptPath -Parameter $AgentParams
+    Invoke-AzureRmVMRunCommand -ResourceGroupName $ResourceGroupName -Name $VmName -CommandId "RunPowerShellScript" -ScriptPath $ScriptPath -Parameter $AgentParams
     Write-Host("VSTS Agent installed")
 
     Write-Host("Virtual Machine created and configured complete") -ForegroundColor Green
@@ -150,7 +150,7 @@ try{
             javaContainerVersion = "8.0"
         }
     }
-    Set-AzureRmResource -ResourceType microsoft.web/sites -ResourceName $AzureWebAppServiceName -ResourceGroupName Demo -PropertyObject $WebAppProperties -Force
+    Set-AzureRmResource -ResourceType microsoft.web/sites -ResourceName $AzureWebAppServiceName -ResourceGroupName $ResourceGroupName -PropertyObject $WebAppProperties -Force
 
     Write-Host("Web App Service created and configured") -ForegroundColor Green
 

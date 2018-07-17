@@ -1,6 +1,6 @@
 DEMO IMPLEMENTATION
 =============================
-## Version 1.0.0 - Updated July-10-2018
+## Version 1.0.0 - Updated July-17-2018
 
 **Important Information:** This guide has been created with Python 3.7.0, Powershell and Azure CLI installed on the machine.
 
@@ -39,7 +39,7 @@ It is neccesarry to create two types of tokens, one for **VSTS Agent** installat
 
 2. Create a personal access token.
 
-    ![SecurityPage](./images/add-personal-access-token.png)
+    ![SecurityPage1](./images/add-personal-access-token.png)
 
 3. Name your token. Select a lifespan for your token.
 
@@ -53,7 +53,7 @@ It is neccesarry to create two types of tokens, one for **VSTS Agent** installat
 
     Create a second one with option **Service Endpoints (read, query and manage)** for **ServiceEndpoint Configuration**.
 
-5. When you're done, make sure to copy the tokens. You'll use them when you configure the **Agent** and **ServiceEndpoint**.
+5. When you're done, make sure to copy the tokens. You will use them when you configure the **Agent** and **ServiceEndpoint**.
 
     ![SecurityPage3](./images/create-personal-access-token.png)
 
@@ -65,7 +65,7 @@ Run the Python script **CreateAgentPool.py** with the following parameters regar
 
     vsts_intance    --> URL of VSTS http://{AccountName}.visualstudio.com
     agentpool_name  --> Name of the new Agent Pool to create
-    vsts_token      --> VSTS Token for Service Endpoint
+    vsts_token      --> VSTS Token for Agent.
 
 Example:
 
@@ -297,7 +297,7 @@ To run successfully this Demo, it is needed some initial resources:
 
             1. Inside the VM, open a browser, sign in into VSTS, and navigate to **Agent Queues** page.
 
-                ![AgentQueuesPage](./images/agent-queues.png)
+                ![AgentQueuesPage](./images/agent-queues-menu.png)
 
             2. Click on **Download Agent** and download the Windows Agent Installer.
 
@@ -444,7 +444,7 @@ To run the CI/CD process, you need to import the code before configure the Build
 
 2. Enter the GitHub URL to clone, in this case https://github.com/OscarEEC249/JavaSample.git (this no need Authorization), click on **Import**.
 
-## Import Build and Release definitions on VSTS.
+## Import Build and Release definitions on VSTS
 
 ### Import Build definition
 

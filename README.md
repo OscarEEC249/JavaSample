@@ -9,4 +9,4 @@ mvn package
 
 To deploy just go to the *target* folder on root directory and copy the *mavendemo.war* on the destination server.
 
-To implement the Application on Microsoft VSTS and Microsoft Azure, go to **vsts-definitions-scripts** folder and follow the instructions.
+To implement the Application on Microsoft VSTS and Microsoft Azure, go to **configurations-definitions-scripts** folder and follow the instructions.
