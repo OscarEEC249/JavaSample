@@ -186,7 +186,7 @@ To run successfully this Demo, it is needed some initial resources:
 
     5. On the App Created, click on **Setting** and then on **Keys**.
 
-        ![AppCreated](./images/ad-app-created.png)
+        ![AppCreated](./images/ad-app-created.PNG)
 
     6. Create a new key, click on save and copy the encripted key. This is going to be your **Service Principal Key**.
 
